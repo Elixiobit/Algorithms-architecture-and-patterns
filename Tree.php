@@ -16,9 +16,13 @@ class BinaryTree
 {
     public $root;
 
+//    public $run;
+
     public function __construct()
     {
+
         $this->root = null;
+//        $this->run = [];
     }
 
 
@@ -28,8 +32,10 @@ class BinaryTree
 
         if ($this->root === null) {
             $this->root = $node;
+
         } else {
             $this->insertNode($node, $this->root);
+//            echo $this->root->value;
         }
     }
 
@@ -44,10 +50,35 @@ class BinaryTree
         }
     }
 
+    public function passTree($node = null)
+    {
+
+        if ($node == null) {
+            $node = $this->root;
+        }
+
+//        echo $node->value; // nlr 5321047689
+
+        if (!is_null($node->left)) {
+            $this->passTree($node->left);
+        }
+
+        echo $node->value; // lnr 0123456789
+
+        if (!is_null($node->right)) {
+            $this->passTree($node->right);
+        }
+
+//        echo $node->value; // lrn 0124369875
+
+    }
+
+
     public function delete(int $int)
     {
         if ($this->root === null) {
-            throw new Exception("Дерево пустое");
+//            throw new Exception("Дерево пустое");
+            echo "Дерево пустое";
         }
 
         $node = &$this->findNode($int, $this->root);
@@ -62,10 +93,12 @@ class BinaryTree
     private function &findNode(int $int, ?BinaryNode &$rootSubtree): ?BinaryNode
     {
         if ($rootSubtree === null || $rootSubtree->value == $int) {
+
             return $rootSubtree;
         }
 
         if ($rootSubtree->value > $int) {
+
             return $this->findNode($int, $rootSubtree->left);
         }
         return $this->findNode($int, $rootSubtree->right);
@@ -75,18 +108,18 @@ class BinaryTree
     private function deleteNode(BinaryNode $node)
     {
         if (is_null($node->right) && is_null($node->left)) {
+            echo '2323';
             $node = null;
         } elseif (is_null($node->left)) {
             $node = $node->right;
+
         } elseif (is_null($node->right)) {
             $node = $node->left;
-        }
-
-        // [1 2 3 4 5] 7 [ 8 9 10]
+        } // [1 2 3 4 5] 7 [ 8 9 10]
 
         else {
             if (is_null($node->right->left)) {
-                $node -> $node->left;
+                $node = $node->left;
             } else {
                 $node->value = $node->right->left->value;
                 $this->deleteNode($node->right->left);
@@ -99,6 +132,7 @@ class BinaryTree
 
 $tree = new BinaryTree();
 
+$tree->insert(8);
 $tree->insert(5);
 $tree->insert(3);
 $tree->insert(4);
@@ -108,11 +142,10 @@ $tree->insert(0);
 $tree->insert(7);
 $tree->insert(6);
 $tree->insert(8);
-$tree->insert(10);
 $tree->insert(9);
-//$tree->insert(11);
-//$tree->insert(12);
 
-//$tree->delete(5);
 
+//$tree->delete(0);
+
+$tree->passTree();
 print_r($tree);
